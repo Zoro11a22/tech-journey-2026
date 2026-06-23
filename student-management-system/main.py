@@ -1,6 +1,30 @@
 # Student Management System
 
+import json
+
 students = []
+modified = False
+
+def read_data():
+    try:
+        # Opening a file and reading it with JSON module
+        with open("students.json", 'r') as file:
+            text = json.load(file)
+        return text
+
+    except(FileNotFoundError, json.JSONDecodeError):
+        # Creating a file and writing it with JSON module
+        with open("students.json", 'w') as file:
+            json.dump([], file)
+        return []
+
+
+def write_data(students):
+    # Saving data to JSON file
+    with open("students.json", "w") as file:
+        json.dump(students, file)
+
+    print("Saved to file successfully.")
 
 def find_student(students): 
     usr_inp = input("Enter student name: ").strip()
@@ -100,42 +124,61 @@ def update_student(students):
         usr_inp = input("Enter new name: ").strip()
         # Updating student name
         students[index]["name"] = usr_inp
-        print("Name updated successfilly", end="\n\n")
+        print("Name updated successfully", end="\n\n")
     else:
         print("No student found.")
         print()
 
-def main():
+def main(modified):
+    print("==========================\nStudent Management System\n==========================")
+    students = read_data()
     while True:
-        print("Welcome to Student Management System!")
 
-        choice = "1) View Students\n2) Add Student\n3) Delete Student\n4) Search Student\n5) Update Student\n0) Exit"
+        choice = "1) View Students\n2) Add Student\n3) Delete Student\n4) Search Student\n5) Update Student\n6) Write to file\n0) Exit"
         print(choice)
 
-        usr_inp = input("Enter your choice(01-05): ")
+        usr_inp = input("Enter your choice (0-6): ")
         print()
 
         try:
             usr_inp = int(usr_inp)
 
             if(usr_inp == 0):
-                break
+                if(modified):
+                    ans = input("Would you like to save before exiting? (y/n): ").strip().lower()
+
+                    if(ans == "y"):
+                        write_data(students)
+                        break
+                    elif(ans == "n"):
+                        break
+                    else:
+                        print("Please enter yes or no.")
+                else:
+                    break
+
             
             match(usr_inp):
                 case 1:
                     view_students(students)
                 case 2:
+                    modified = True
                     add_student(students)
                 case 3:
+                    modified = True
                     delete_student(students)
                 case 4:
                     search_student(students)
                 case 5:
+                    modified = True
                     update_student(students)
+                case 6:
+                    write_data(students)
+                    modified = False
                 case _:
                     print("Invalid choice")
 
         except ValueError:
-            print("Enter value from 0 to 5")
+            print("Enter value from 0 to 6")
 
-main()
+main(modified)
