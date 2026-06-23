@@ -15,8 +15,7 @@ def find_student(students):
         if(usr_inp.lower() == value.lower()):
             return index, value, True
     # Return none for placeholders and false for terminating calls
-    if(not stu_found):
-        return None, None, False
+    return None, None, False
 
 def view_students(students):
 
