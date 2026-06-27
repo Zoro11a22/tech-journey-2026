@@ -15,6 +15,8 @@ def calculator_menu():
 
     try:
         usr_inp = int(input("Choose an option (1-5): "))
+        if(usr_inp == 5):
+            return
         n1 = int(input("First Number: "))
         n2 = int(input("Second Number: "))
 
@@ -48,10 +50,12 @@ def converter_menu():
 
     try:
         usr_inp = int(input("Choose an option (1-5): "))
-        n1 = int(input("Enter Value: "))
+        if(usr_inp == 5):
+            return
+        n1 = float(input("Enter Value: "))
 
     except ValueError:
-        print("Please enter integers only.")
+        print("Please enter a valid number.")
         return
 
     match usr_inp:
@@ -84,27 +88,15 @@ def pass_gen_menu():
         print("Enter integers only.")
         return
 
-    upper = input("Include uppercase letters (y/n): ").strip().lower()
-    lower = input("Include lowercase letters (y/n): ").strip().lower()
-    num = input("Include numbers (y/n): ").strip().lower()
-    symbol = input("Include special characters (y/n): ").strip().lower()
-
-    if(upper == "y" or lower == "y" or num == "y" or symbol == "y"):
-        if(upper == "y"):
-            upper = True
-        if(lower == "y"):
-            lower = True
-        if(num == "y"):
-            num = True
-        if(symbol == "y"):
-            symbol = True
-        
-    elif(upper == "n" and lower == "n" and num == "n" and symbol == "n"):
-        print("At least one character type must be selected.")
-    else:
-        print("Please enter valid input.")
-
-    print(f"Your password is: {password_generator.pass_gen(length, upper, lower, num, symbol)}")
+    upper = input("Include uppercase letters (y/n): ").strip().lower() == "y"
+    lower = input("Include lowercase letters (y/n): ").strip().lower() == "y"
+    num = input("Include numbers (y/n): ").strip().lower() == "y"
+    symbol = input("Include special characters (y/n): ").strip().lower() == "y"
+    
+    try:
+        print(f"Your password is: {password_generator.pass_gen(length, upper, lower, num, symbol)}")
+    except ValueError as e:
+        print(e)
 
 def menu():
     print("\n===== Utility Toolkit =====")
@@ -123,6 +115,7 @@ def main():
             choice = int(input("Choose an option (1-5): "))
         except ValueError:
             print("Please enter integers only.")
+            continue
 
         match choice:
 
@@ -137,8 +130,7 @@ def main():
             case 5:
                 print("Goodbye!")
                 break
-
             case _:
-                print("Chose from 1 to 5 only.")
+                print("Choose from 1 to 5 only.")
 
 main()
