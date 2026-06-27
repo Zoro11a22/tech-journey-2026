@@ -1,9 +1,9 @@
 # Utility Toolkit
 
-import operations
-import converter
-import greetings
-import password_generator
+from toolkit import operations
+from toolkit import converter
+from toolkit import greetings
+from toolkit import password_generator
 
 def calculator_menu():
     print("\n===== Calculator =====")
