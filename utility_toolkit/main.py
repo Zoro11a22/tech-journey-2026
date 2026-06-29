@@ -133,4 +133,5 @@ def main():
             case _:
                 print("Choose from 1 to 5 only.")
 
-main()
+if(__name__ == "__main__"):
+    main()
