@@ -24,3 +24,23 @@ class LibraryItem:
 
     def __str__(self):
         return f"{self.title} ({self.year}) by {self.author}"
+
+class Book(LibraryItem):
+    def __init__(self, title, author, year, pages):
+        super().__init__(title, author, year)
+        self.pages = pages
+
+    def __str__(self):
+        return f"Book: {super().__str__()} - {self.pages} pages"
+
+class Magazine(LibraryItem):
+    def __init__(self, title, author, year, issue_number):
+        super().__init__(title, author, year)
+        self.issue_number = issue_number
+
+    def __str__(self):
+        return f"Magazine: {super().__str__()} - Issue #{self.issue_number}"
+
+mgz = Book("Awsome", "Peeter", 1999, 69420)
+
+print(mgz)
