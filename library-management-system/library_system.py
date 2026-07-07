@@ -8,16 +8,14 @@ class LibraryItem:
     def borrow(self):
         if self.__available:
             self.__available = False
-            print("Item borrowed.")
-        else:
-            print("Item is already borrowed.")
+            return True
+        return False
 
     def return_item(self):
         if not self.__available:
             self.__available = True
-            print("Item returned.")
-        else:
-            print("Item was not borrowed.")          
+            return True
+        return False        
 
     def is_available(self):
         return self.__available
@@ -61,7 +59,10 @@ class Library:
         title = title.strip().lower()
         for item in self.items:
             if item.title.lower() == title:
-                item.borrow()
+                if item.borrow():
+                    print("Item borrowed.")
+                else:
+                    print("Item is already borrowed.")
                 return
         print("No such item found.")
 
@@ -69,18 +70,38 @@ class Library:
         title = title.strip().lower()
         for item in self.items:
             if item.title.lower() == title:
-                item.return_item()
+                if item.return_item():
+                    print("Item returned.")
+                else:
+                    print("Item is not borrowed.")
                 return
         print("No such item found.")
 
+    def __len__(self):
+        return len(self.items)
+
+    def search_item(self, title):
+        title = title.strip().lower()
+        found = False  
+        for item in self.items:
+            item_title = item.title.lower()
+            if title in item_title:
+                print(item)
+                found = True
+        if not found:
+            print("No such item found.")
+
+    def __iter__(self):
+        return iter(self.items)
+
+    def __str__(self):
+        return f"Library with {len(self)} items"
+            
+
 library = Library()
 
-book1 = Book("Atomic Habits", "James Clear", 2018, 320)
+library.add_item(Book("Dune", "Frank Herbert", 1965, 789))
 
-library.add_item(book1)
+print(library)
 
 library.show_items()
-
-library.borrow_item("Atomic Habits")
-
-library.return_item("Atomic Habits")
